@@ -36,9 +36,9 @@ services:
       - "-c"
       - "pg_stat_statements.track=all"
     environment:
-      POSTGRES_DB: "esp_db"
-      POSTGRES_USER: "esp_user"
-      POSTGRES_PASSWORD: "mypwd"
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ../2. Init Database:/docker-entrypoint-initdb.d
@@ -64,8 +64,8 @@ services:
     container_name: pgadmin_container
     image: dpage/pgadmin4:5.7
     environment:
-      PGADMIN_DEFAULT_EMAIL: "kirill.gluhov2003@yandex.ru"
-      PGADMIN_DEFAULT_PASSWORD: "12357"
+      PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+      PGADMIN_DEFAULT_PASSWORD: "root"
       PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - ./pgadmin:/var/lib/pgadmin
@@ -79,17 +79,6 @@ services:
           memory: 1G
     networks:
       - postgres
-
-  flask-server:
-    container_name: flask_server
-    build: server/
-    depends_on:
-      - postgres
-    restart: on-failure
-    ports:
-      - "5000:5000"
-    command: python main.py
-
 
 
 networks:
