@@ -1,4 +1,3 @@
-# Plug
 from db_handler import DBHandler
 from flask import Flask, request, Response
 from functools import wraps
