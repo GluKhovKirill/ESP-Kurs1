@@ -27,13 +27,17 @@ def hello_world():
     if not user:
         return Response("Not found", status=404)
 
-
-    if 1:
-        return Response("Unauthorized", status=401)
-    return Response("OK", status=200)
+    record_id, username, real_code, access = user
+    access = access.split(";")
+    print(username,code,access,sep=":")
+    if str(real_code) == code and station_id in access:
+        handler.create_log_record(rfid, station_id, True)
+        return Response("OK", status=200)
+    handler.create_log_record(rfid, station_id, False)
+    return Response("Unauthorized", status=401)
 
 
 if __name__ == '__main__':
-    postgres_host = ''
+    postgres_host = '172.18.0.2'
     handler = DBHandler(postgres_host)
     app.run(host='0.0.0.0', port=4862)
