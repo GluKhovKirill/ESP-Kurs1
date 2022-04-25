@@ -20,7 +20,7 @@ def params_required(function):
 @app.route('/validate/', methods=['GET'])
 @app.route('/validate', methods=['GET'])
 @params_required
-def hello_world():
+def validate():
     station_id, rfid, code = request.args.get("stationID"), request.args.get("rfidUID"), request.args.get("code")
 
     user = handler.find_user_by_rfid(rfid)
@@ -29,7 +29,7 @@ def hello_world():
 
     record_id, username, real_code, access = user
     access = access.split(";")
-    print(username,code,access,sep=":")
+    print(username, code, access,sep=":")
     if str(real_code) == code and station_id in access:
         handler.create_log_record(rfid, station_id, True)
         return Response("OK", status=200)
